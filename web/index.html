@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en" data-size="m">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KalJahaz: freight forecasting for East Coast ports</title>
+<meta name="description" content="Forecast total voyage cost for dry bulk charters into India's East Coast ports: when to fix, which vessel fits, and what the route costs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wdth,wght@62.5..100,400..800&family=Noto+Sans+Devanagari:wght@500;700&family=Spectral:ital,wght@0,600;1,400;1,600&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23A8322A' stroke-width='3'/%3E%3Cpath d='M2 16h28' stroke='%23A8322A' stroke-width='3'/%3E%3C/svg%3E">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-plimsoll" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="3"/><path d="M1 20h38" stroke="currentColor" stroke-width="3"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-no" viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-part" viewBox="0 0 20 20"><path d="M4 10h12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 20 20"><path d="M10 3v14M5 12l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Skip to main content</a>
+<div class="a11y">
+  <div class="a11y__in">
+    <p class="a11y__note">Smart India Hackathon 2026 prototype</p>
+    <div class="a11y__tools" role="group" aria-label="Display settings">
+      <span class="a11y__label" id="sizeLabel">Text size</span>
+      <div class="seg" role="group" aria-labelledby="sizeLabel">
+        <button type="button" data-size="s" aria-label="Smaller text">A-</button>
+        <button type="button" data-size="m" aria-label="Normal text" aria-pressed="true">A</button>
+        <button type="button" data-size="l" aria-label="Larger text">A+</button>
+      </div>
+      <button type="button" class="a11y__contrast" id="contrast" aria-pressed="false">High contrast</button>
+      <span class="a11y__label" id="curLabel">Currency</span>
+      <div class="seg cur" role="group" aria-labelledby="curLabel" aria-describedby="fxNote">
+        <button type="button" data-cur="USD" aria-pressed="true">US$</button>
+        <button type="button" data-cur="INR" aria-pressed="false">₹ INR</button>
+      </div>
+      <span class="a11y__label a11y__fx" id="fxNote">Fetching rupee rate</span>
+    </div>
+  </div>
+</div>
+<header class="mast">
+  <div class="mast__in">
+    <a class="brand" href="#top" aria-label="KalJahaz home">
+      <svg class="brand__mark" aria-hidden="true"><use href="#i-plimsoll"/></svg>
+      <span class="brand__text">
+        <span class="brand__hi" lang="hi">कलजहाज़</span>
+        <span class="brand__name">KalJahaz</span>
+      </span>
+    </a>
+    <div class="mast__what">
+      <p lang="hi">पूर्वी तट के बंदरगाहों के लिए माल भाड़ा पूर्वानुमान</p>
+      <p>Freight forecasting for dry bulk into India's East Coast ports</p>
+    </div>
+    <p class="mast__data" id="dataLabel">Loading market data</p>
+  </div>
+</header>
+<nav class="menu" aria-label="Main">
+  <div class="menu__in">
+    <a href="#forecast">Forecast</a>
+    <a href="#whatif">What-if</a>
+    <a href="#ports">Port fit</a>
+    <a href="#market">Market trends</a>
+    <a href="#corridors">Trade corridors</a>
+    <a href="#traffic">Live ships</a>
+    <a href="#about">About the model</a>
+  </div>
+</nav>
+<div class="news" id="news" aria-label="What's new for this voyage">
+  <div class="news__in">
+    <h2 class="news__tag">What's new</h2>
+    <div class="news__track"><ul class="news__list" id="newsList"><li>Loading this voyage's warnings</li></ul></div>
+  </div>
+</div>
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="#top">Home</a></li><li aria-current="page">Freight forecast</li></ol></nav>
+
+<main id="main" tabindex="-1">
+  <form class="voyage" id="voyage" aria-label="Voyage" onsubmit="return false">
+    <div class="voyage__in">
+      <label class="field">
+        <span class="field__label">Load port</span>
+        <select id="origin" class="select"></select>
+      </label>
+      <label class="field">
+        <span class="field__label">Discharge port</span>
+        <select id="dest" class="select"></select>
+      </label>
+      <label class="field">
+        <span class="field__label">Vessel class</span>
+        <select id="cls" class="select"></select>
+      </label>
+      <div class="field field--dwt">
+        <label class="field__label" for="dwt">Deadweight</label>
+        <div class="dwt">
+          <output class="dwt__value" id="dwtOut" for="dwt">82,000</output><span class="dwt__unit">DWT</span>
+        </div>
+        <div class="slider">
+          <input type="range" id="dwt" min="0" max="1000" step="1" value="625" aria-describedby="dwtNote">
+          <div class="slider__ticks" id="ticks" aria-hidden="true"></div>
+        </div>
+        <p class="field__note" id="dwtNote"></p>
+      </div>
+    </div>
+  </form>
+
+  <section class="decision" id="forecast" aria-labelledby="h-result" aria-busy="true">
+    <div class="decision__frame">
+    <h2 class="boxhead" id="h-result">Recommended fixing window</h2>
+    <div class="decision__in" aria-live="polite">
+      <div class="verdict" id="verdict">
+        <p class="verdict__lead">Working out the voyage</p>
+      </div>
+      <div class="ladder" id="ladder" role="group" aria-label="Total voyage cost by fixing date"></div>
+    </div>
+    </div>
+  </section>
+
+  <div class="sheet">
+    <section class="block" id="whatif" aria-labelledby="h-whatif">
+      <div class="block__head">
+        <h2 id="h-whatif">What-if scenarios</h2>
+        <p>Each slider starts at today's live reading. Move it either way to ask how the forecast and the voyage cost would react. The model keeps its learned weights; only the inputs change. The whole page reprices while a scenario is active.</p>
+      </div>
+      <div class="wi-box">
+        <div class="wi-grid" id="wiGrid"></div>
+        <div class="wi-side">
+          <h3 class="boxhead boxhead--light">Today's market vs your scenario</h3>
+          <div id="wiCompare"><p class="wi-empty">Move a slider to compare.</p></div>
+          <button type="button" class="btn" id="wiReset" disabled>Reset all sliders</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="block block--split" aria-labelledby="h-cost">
+      <div class="panel">
+        <h2 id="h-cost">Where the money goes</h2>
+        <p class="panel__sub" id="costSub"></p>
+        <div class="pie">
+          <div class="pie__chart"><canvas id="pie" aria-label="Cost breakdown pie chart" role="img"></canvas></div>
+          <table class="legend" id="costTable"></table>
+        </div>
+      </div>
+      <div class="panel">
+        <h2 id="h-fit">Will it fit</h2>
+        <p class="panel__sub" id="fitSub"></p>
+        <table class="checks" id="checks"></table>
+      </div>
+    </section>
+
+    <section class="block" id="ports" aria-labelledby="h-keel">
+      <div class="block__head">
+        <h2 id="h-keel">The keel at every discharge port</h2>
+        <p>Your vessel's laden keel drawn across each port's depth limit. Hatching shows where it would touch bottom. Select a port to discharge there.</p>
+      </div>
+      <div class="scroll keelwrap"><svg class="keel-chart" id="keel" viewBox="0 0 960 340" role="group" aria-label="Laden draft against each discharge port's depth limit"></svg></div>
+    </section>
+
+    <section class="block" aria-labelledby="h-legs">
+      <div class="block__head">
+        <h2 id="h-legs">The voyage, leg by leg</h2>
+        <p id="legsSub"></p>
+      </div>
+      <div class="scroll"><table class="data" id="legs"></table></div>
+    </section>
+
+    <section class="block" aria-labelledby="h-vessels">
+      <div class="block__head">
+        <h2 id="h-vessels">Which vessel suits this run</h2>
+        <p>Each class at its typical size, fixed today, checked against both ports and the lane.</p>
+      </div>
+      <div class="scroll"><table class="data" id="fitTable"></table></div>
+    </section>
+
+    <section class="block" id="market" aria-labelledby="h-market">
+      <div class="block__head">
+        <h2 id="h-market">Market trends</h2>
+        <p id="marketSub"></p>
+      </div>
+      <div class="market">
+        <figure class="chart chart--wide">
+          <figcaption id="idxCap">Index history and forecast</figcaption>
+          <div class="chart__box chart__box--tall"><canvas id="idxChart" role="img" aria-label="Index history and forecast"></canvas></div>
+        </figure>
+        <div class="stats" id="stats"></div>
+        <figure class="chart">
+          <figcaption>Learning check: 4-week forecast made a month earlier vs what happened</figcaption>
+          <div class="chart__box"><canvas id="btChart" role="img" aria-label="Backtest"></canvas></div>
+        </figure>
+        <figure class="chart">
+          <figcaption>What moves the 4-week forecast right now (learned weights)</figcaption>
+          <div class="chart__box"><canvas id="wChart" role="img" aria-label="Feature weights"></canvas></div>
+        </figure>
+        <div class="macro">
+          <figure class="chart chart--mini"><figcaption>China PMI</figcaption><div class="chart__box chart__box--mini"><canvas id="mPmi"></canvas></div></figure>
+          <figure class="chart chart--mini"><figcaption>India IIP</figcaption><div class="chart__box chart__box--mini"><canvas id="mIip"></canvas></div></figure>
+          <figure class="chart chart--mini"><figcaption>IIV: iron-ore price, US$/t</figcaption><div class="chart__box chart__box--mini"><canvas id="mIiv"></canvas></div></figure>
+          <figure class="chart chart--mini"><figcaption>World trade volume</figcaption><div class="chart__box chart__box--mini"><canvas id="mTrade"></canvas></div></figure>
+        </div>
+        <div class="scroll sources"><table class="data" id="srcTable"></table></div>
+      </div>
+    </section>
+
+    <section class="block block--split" aria-labelledby="h-risk">
+      <div class="panel">
+        <h2 id="h-risk">Early warnings</h2>
+        <ul class="risks" id="risks"></ul>
+      </div>
+      <div class="panel">
+        <h2 id="h-idle">Keeping the ship busy</h2>
+        <p class="panel__sub" id="idleSub"></p>
+        <ul class="advice" id="advice"></ul>
+        <table class="data data--compact" id="repos"></table>
+      </div>
+    </section>
+
+    <section class="block block--map" id="corridors" aria-labelledby="h-map">
+      <div class="block__head">
+        <h2 id="h-map">Trade corridors</h2>
+        <p>Every lane into the five ports. Your route is drawn heavy. Shaded areas are seasonal weather hazards: red where active this month, dashed outline when out of season. Select a port for its limits.</p>
+      </div>
+      <div class="mapwrap">
+        <div id="map" role="region" aria-label="Trade corridor map"></div>
+        <div class="maplegend" id="mapLegend"></div>
+      </div>
+    </section>
+
+    <section class="block" id="traffic" aria-labelledby="h-traffic">
+      <div class="block__head">
+        <h2 id="h-traffic">Live vessel traffic</h2>
+        <p>Every ship broadcasting its position (AIS) right now, centred on the Bay of Bengal. Click the map to use it, then select a ship for its name, type, speed and destination. Live map by VesselFinder.</p>
+      </div>
+      <div class="vfwrap"><iframe id="vf" title="Live vessel positions from VesselFinder" loading="lazy"></iframe></div>
+    </section>
+
+
+  </div>
+</main>
+
+<footer class="site-foot" id="about">
+  <div class="site-foot__in">
+    <section>
+      <h2>About the model</h2>
+      <p>An adaptive regression relearns every week from the vessel's own Baltic index (BCI, BPI, BSI or BHSI, with BDI only as a fallback), China PMI, India IIP, China iron-ore imports and world trade volume. Its forecast feeds a leg-by-leg voyage model: distance, vessel speed, wind and sea state, currents, tides, port time and congestion.</p>
+    </section>
+    <section>
+      <h2>Data sources</h2>
+      <ul>
+        <li>Baltic indices: daily closes from a public scrape of Baltic Exchange data (github.com/yieldchaser/Shipping). Iron-ore price: IMF via FRED. China PMI: NBS via DBnomics. Refreshed when the server starts and every six hours.</li>
+        <li>India IIP, world trade volume and bunker price: saved series, as no free current feed exists. The Market trends table shows each series' source and latest date.</li>
+        <li>Weather and currents: Open-Meteo forecasts, seasonal norms beyond 16 days.</li>
+        <li>Port limits: approximations from public sources.</li>
+        <li>Maps: OpenStreetMap contributors.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Choose the load port, discharge port and vessel class.</li>
+        <li>Set the deadweight. Red marks show where a full cargo stops fitting.</li>
+        <li>Read the cheapest window to fix the charter, then the evidence below it.</li>
+      </ol>
+    </section>
+  </div>
+  <div class="site-foot__bar">
+    <p>A Smart India Hackathon prototype. This is not an official Government of India website.</p>
+    <p id="updated">Market data last updated: loading</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

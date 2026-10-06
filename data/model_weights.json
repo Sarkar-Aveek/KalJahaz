@@ -1,0 +1,330 @@
+{
+ "trained_to": "2026-10-02",
+ "features": [
+  "bias",
+  "momentum 1w",
+  "momentum 4w",
+  "momentum 13w",
+  "deviation from 26w mean",
+  "BDI 4w trend",
+  "China PMI level",
+  "China PMI change",
+  "India IIP yoy",
+  "IIV iron-ore price yoy",
+  "World trade volume yoy",
+  "season (sin)",
+  "season (cos)"
+ ],
+ "models": {
+  "BDI": {
+   "1w_ahead": {
+    "weights": {
+     "bias": 0.00355,
+     "momentum 1w": 0.025898,
+     "momentum 4w": -0.000102,
+     "momentum 13w": -0.028263,
+     "deviation from 26w mean": -0.025876,
+     "BDI 4w trend": -0.000102,
+     "China PMI level": -0.007368,
+     "China PMI change": 0.008955,
+     "India IIP yoy": 0.004953,
+     "IIV iron-ore price yoy": 0.002729,
+     "World trade volume yoy": -0.002935,
+     "season (sin)": 0.012971,
+     "season (cos)": -0.019707
+    },
+    "model_trust": 0.502,
+    "mape": 0.0747,
+    "naive_mape": 0.0744
+   },
+   "4w_ahead": {
+    "weights": {
+     "bias": 0.016865,
+     "momentum 1w": 0.012316,
+     "momentum 4w": -0.070225,
+     "momentum 13w": -0.068635,
+     "deviation from 26w mean": -0.089277,
+     "BDI 4w trend": -0.070225,
+     "China PMI level": -0.063671,
+     "China PMI change": 0.03574,
+     "India IIP yoy": -0.012338,
+     "IIV iron-ore price yoy": -0.003406,
+     "World trade volume yoy": 0.01657,
+     "season (sin)": 0.059004,
+     "season (cos)": -0.060347
+    },
+    "model_trust": 0.493,
+    "mape": 0.1606,
+    "naive_mape": 0.1619
+   },
+   "9w_ahead": {
+    "weights": {
+     "bias": 0.003427,
+     "momentum 1w": -0.014339,
+     "momentum 4w": -0.094464,
+     "momentum 13w": -0.078584,
+     "deviation from 26w mean": -0.073049,
+     "BDI 4w trend": -0.094464,
+     "China PMI level": -0.1289,
+     "China PMI change": -0.010881,
+     "India IIP yoy": 0.026949,
+     "IIV iron-ore price yoy": -0.009097,
+     "World trade volume yoy": 0.029131,
+     "season (sin)": 0.141259,
+     "season (cos)": -0.050535
+    },
+    "model_trust": 0.538,
+    "mape": 0.2258,
+    "naive_mape": 0.2175
+   }
+  },
+  "BCI": {
+   "1w_ahead": {
+    "weights": {
+     "bias": 0.007438,
+     "momentum 1w": 0.070208,
+     "momentum 4w": -0.01613,
+     "momentum 13w": -0.057239,
+     "deviation from 26w mean": -0.058325,
+     "BDI 4w trend": 0.025849,
+     "China PMI level": -0.012564,
+     "China PMI change": 0.003254,
+     "India IIP yoy": 0.000522,
+     "IIV iron-ore price yoy": 0.009426,
+     "World trade volume yoy": -0.003146,
+     "season (sin)": 0.012405,
+     "season (cos)": -0.036147
+    },
+    "model_trust": 0.515,
+    "mape": 0.1263,
+    "naive_mape": 0.1281
+   },
+   "4w_ahead": {
+    "weights": {
+     "bias": 0.018616,
+     "momentum 1w": 0.023128,
+     "momentum 4w": -0.179441,
+     "momentum 13w": -0.114907,
+     "deviation from 26w mean": -0.207784,
+     "BDI 4w trend": -0.037461,
+     "China PMI level": -0.096401,
+     "China PMI change": 0.00708,
+     "India IIP yoy": -0.013394,
+     "IIV iron-ore price yoy": 0.008818,
+     "World trade volume yoy": 0.026405,
+     "season (sin)": 0.06462,
+     "season (cos)": -0.111412
+    },
+    "model_trust": 0.508,
+    "mape": 0.2634,
+    "naive_mape": 0.2836
+   },
+   "9w_ahead": {
+    "weights": {
+     "bias": 0.004985,
+     "momentum 1w": 0.003009,
+     "momentum 4w": -0.149211,
+     "momentum 13w": -0.131899,
+     "deviation from 26w mean": -0.165261,
+     "BDI 4w trend": -0.067166,
+     "China PMI level": -0.143548,
+     "China PMI change": -0.045341,
+     "India IIP yoy": 0.041546,
+     "IIV iron-ore price yoy": 0.00676,
+     "World trade volume yoy": 0.039082,
+     "season (sin)": 0.164063,
+     "season (cos)": -0.104265
+    },
+    "model_trust": 0.547,
+    "mape": 0.338,
+    "naive_mape": 0.3335
+   }
+  },
+  "BPI": {
+   "1w_ahead": {
+    "weights": {
+     "bias": -0.001276,
+     "momentum 1w": -0.000617,
+     "momentum 4w": -0.019923,
+     "momentum 13w": -0.01127,
+     "deviation from 26w mean": -0.018218,
+     "BDI 4w trend": -0.003587,
+     "China PMI level": 0.006923,
+     "China PMI change": 0.023774,
+     "India IIP yoy": 0.018968,
+     "IIV iron-ore price yoy": 0.000719,
+     "World trade volume yoy": -0.001492,
+     "season (sin)": 0.01413,
+     "season (cos)": -0.01016
+    },
+    "model_trust": 0.489,
+    "mape": 0.0642,
+    "naive_mape": 0.0642
+   },
+   "4w_ahead": {
+    "weights": {
+     "bias": 0.020478,
+     "momentum 1w": -0.022629,
+     "momentum 4w": -0.054678,
+     "momentum 13w": -0.045568,
+     "deviation from 26w mean": -0.051098,
+     "BDI 4w trend": -0.005356,
+     "China PMI level": -0.024496,
+     "China PMI change": 0.086522,
+     "India IIP yoy": -0.024962,
+     "IIV iron-ore price yoy": -0.005238,
+     "World trade volume yoy": 0.004249,
+     "season (sin)": 0.059212,
+     "season (cos)": -0.024293
+    },
+    "model_trust": 0.465,
+    "mape": 0.1276,
+    "naive_mape": 0.1261
+   },
+   "9w_ahead": {
+    "weights": {
+     "bias": -0.007075,
+     "momentum 1w": -0.02442,
+     "momentum 4w": -0.096603,
+     "momentum 13w": -0.023582,
+     "deviation from 26w mean": -0.045846,
+     "BDI 4w trend": -0.072184,
+     "China PMI level": -0.122937,
+     "China PMI change": 0.034994,
+     "India IIP yoy": -0.002079,
+     "IIV iron-ore price yoy": -0.027615,
+     "World trade volume yoy": 0.017522,
+     "season (sin)": 0.122334,
+     "season (cos)": 0.008889
+    },
+    "model_trust": 0.505,
+    "mape": 0.1736,
+    "naive_mape": 0.1733
+   }
+  },
+  "BSI": {
+   "1w_ahead": {
+    "weights": {
+     "bias": 0.001254,
+     "momentum 1w": 0.014966,
+     "momentum 4w": 0.006278,
+     "momentum 13w": -0.000607,
+     "deviation from 26w mean": -0.005862,
+     "BDI 4w trend": 0.008354,
+     "China PMI level": 0.00203,
+     "China PMI change": 0.005808,
+     "India IIP yoy": 0.005039,
+     "IIV iron-ore price yoy": -8.1e-05,
+     "World trade volume yoy": -0.000715,
+     "season (sin)": 0.010394,
+     "season (cos)": -0.01219
+    },
+    "model_trust": 0.488,
+    "mape": 0.0356,
+    "naive_mape": 0.0359
+   },
+   "4w_ahead": {
+    "weights": {
+     "bias": 0.011827,
+     "momentum 1w": 0.010605,
+     "momentum 4w": -0.033474,
+     "momentum 13w": -0.034445,
+     "deviation from 26w mean": -0.041568,
+     "BDI 4w trend": 0.015591,
+     "China PMI level": -0.009734,
+     "China PMI change": 0.059369,
+     "India IIP yoy": -0.003627,
+     "IIV iron-ore price yoy": -0.000504,
+     "World trade volume yoy": 0.004977,
+     "season (sin)": 0.05427,
+     "season (cos)": -0.05154
+    },
+    "model_trust": 0.48,
+    "mape": 0.0983,
+    "naive_mape": 0.1017
+   },
+   "9w_ahead": {
+    "weights": {
+     "bias": -0.007861,
+     "momentum 1w": -0.004445,
+     "momentum 4w": -0.038626,
+     "momentum 13w": -0.053811,
+     "deviation from 26w mean": -0.041069,
+     "BDI 4w trend": -0.021521,
+     "China PMI level": -0.080823,
+     "China PMI change": 0.050373,
+     "India IIP yoy": 0.015241,
+     "IIV iron-ore price yoy": -0.010036,
+     "World trade volume yoy": 0.012752,
+     "season (sin)": 0.144354,
+     "season (cos)": -0.053091
+    },
+    "model_trust": 0.534,
+    "mape": 0.1598,
+    "naive_mape": 0.1662
+   }
+  },
+  "BHSI": {
+   "1w_ahead": {
+    "weights": {
+     "bias": 0.002287,
+     "momentum 1w": 0.014737,
+     "momentum 4w": 0.011049,
+     "momentum 13w": -0.008283,
+     "deviation from 26w mean": -0.006753,
+     "BDI 4w trend": 0.019769,
+     "China PMI level": 0.000225,
+     "China PMI change": -0.000788,
+     "India IIP yoy": 0.002158,
+     "IIV iron-ore price yoy": 0.002069,
+     "World trade volume yoy": 0.000376,
+     "season (sin)": 0.00382,
+     "season (cos)": -0.010599
+    },
+    "model_trust": 0.511,
+    "mape": 0.0285,
+    "naive_mape": 0.0294
+   },
+   "4w_ahead": {
+    "weights": {
+     "bias": 0.011128,
+     "momentum 1w": 0.015332,
+     "momentum 4w": -0.022443,
+     "momentum 13w": -0.052344,
+     "deviation from 26w mean": -0.05735,
+     "BDI 4w trend": 0.04022,
+     "China PMI level": -0.014695,
+     "China PMI change": 0.017779,
+     "India IIP yoy": -0.001111,
+     "IIV iron-ore price yoy": 0.006256,
+     "World trade volume yoy": 0.005747,
+     "season (sin)": 0.02414,
+     "season (cos)": -0.046935
+    },
+    "model_trust": 0.48,
+    "mape": 0.0988,
+    "naive_mape": 0.0981
+   },
+   "9w_ahead": {
+    "weights": {
+     "bias": -0.002675,
+     "momentum 1w": -0.003622,
+     "momentum 4w": -0.063905,
+     "momentum 13w": -0.067008,
+     "deviation from 26w mean": -0.071979,
+     "BDI 4w trend": -0.02351,
+     "China PMI level": -0.062941,
+     "China PMI change": 0.039608,
+     "India IIP yoy": 0.020009,
+     "IIV iron-ore price yoy": -0.002109,
+     "World trade volume yoy": 0.008686,
+     "season (sin)": 0.092356,
+     "season (cos)": -0.069657
+    },
+    "model_trust": 0.491,
+    "mape": 0.1472,
+    "naive_mape": 0.1486
+   }
+  }
+ }
+}

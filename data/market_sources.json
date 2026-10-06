@@ -1,0 +1,64 @@
+{
+ "refreshed": "2026-10-05T17:08+00:00",
+ "series": {
+  "bdi": {
+   "label": "BDI",
+   "source": "Baltic Exchange closes (yieldchaser/Shipping scrape)",
+   "live": true,
+   "latest": "2026-10-02"
+  },
+  "bci": {
+   "label": "BCI",
+   "source": "Baltic Exchange closes (yieldchaser/Shipping scrape)",
+   "live": true,
+   "latest": "2026-10-02"
+  },
+  "bpi": {
+   "label": "BPI",
+   "source": "Baltic Exchange closes (yieldchaser/Shipping scrape)",
+   "live": true,
+   "latest": "2026-10-02"
+  },
+  "bsi": {
+   "label": "BSI",
+   "source": "Baltic Exchange closes (yieldchaser/Shipping scrape)",
+   "live": true,
+   "latest": "2026-10-02"
+  },
+  "bhsi": {
+   "label": "BHSI",
+   "source": "Baltic Exchange closes (yieldchaser/Shipping scrape)",
+   "live": true,
+   "latest": "2026-10-02"
+  },
+  "china_pmi": {
+   "label": "China PMI",
+   "source": "NBS via DBnomics",
+   "live": true,
+   "latest": "2026-02",
+   "note": "live from 2025-02; earlier weeks use saved values"
+  },
+  "iron_ore_usd": {
+   "label": "IIV: iron-ore price",
+   "source": "IMF via FRED (PIORECRUSDM)",
+   "live": true,
+   "latest": "2026-07",
+   "note": null
+  },
+  "india_iip": {
+   "label": "India IIP",
+   "source": "bundled series (no free current feed)",
+   "live": false
+  },
+  "world_trade_idx": {
+   "label": "World trade volume",
+   "source": "bundled series (no free current feed)",
+   "live": false
+  },
+  "vlsfo_usd_t": {
+   "label": "Bunker price (VLSFO)",
+   "source": "bundled series (no free current feed)",
+   "live": false
+  }
+ }
+}
