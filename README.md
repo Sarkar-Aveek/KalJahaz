@@ -5,6 +5,16 @@ Smart India Hackathon 2026 · Problem statement SIH-26006 · Team BcB Encoders
 
 **Live demo:** https://kaljahaz.pages.dev
 
+## What makes it different
+
+- **A model that adapts to the market.** Freight markets change regime fast: a Chinese stimulus, a strait closure or a monsoon can change the rules within weeks. A model trained once and frozen goes stale. KalJahaz's 15 adaptive models update their weights with every new weekly close and gradually forget old regimes. There is no retraining job, no GPU and no stored model file to go stale. In a walk-forward backtest on real Baltic data it matches or beats XGBoost on every index tested.
+- **The right index for the right ship.** Each vessel class is forecast on its own Baltic index: Capesize on the BCI, Panamax on the BPI, Supramax on the BSI and Handysize on the BHSI. The headline BDI only fills gaps.
+- **Honest about uncertainty.** Every price carries its measured forecast accuracy and an 80% range, and every data source is labelled live or saved. Monthly macro figures are used only after they are published, so the backtest never sees the future.
+- **A decision, not just a forecast.** KalJahaz prices the whole voyage for every fixing day up to 60 days ahead and names the cheapest date. It checks whether the ship fits both ports, and costs each leg using live wind, waves and currents.
+- **Light enough to run anywhere.** It needs only Python's standard library, with no packages to install, and the models train in under a second when the server starts. It runs on an ordinary laptop or inside a locked-down government network.
+
+## Overview
+
 KalJahaz helps a chartering manager decide **when to fix a charter, which vessel to use, and what the voyage will really cost**. Pick a load port, a discharge port, a vessel class and a deadweight; KalJahaz forecasts the freight market, prices the whole voyage for every fixing day over the next 60 days, and recommends the cheapest date, with an honest accuracy figure next to every price.
 
 ## What it does
